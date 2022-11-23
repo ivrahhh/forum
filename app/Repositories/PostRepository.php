@@ -6,6 +6,7 @@ use App\Contracts\Repository;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 
 class PostRepository implements Repository
@@ -15,9 +16,19 @@ class PostRepository implements Repository
      */
     public function create(array $data): Model
     {
-        return Post::create($data + [
+        $postData = Arr::except($data, 'tags');
+    
+        /**
+         * @var \App\Models\Post $post
+         */
+        $post = Post::create($postData + [
             'user_id' => Auth::id(),
         ]);
+
+        $tags = Arr::only($data, 'tags');
+        $post->tags()->attach($tags);
+
+        return $post;
     }
 
     /**
