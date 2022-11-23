@@ -1,0 +1,84 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
+
+class LoginRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, mixed>
+     */
+    public function rules()
+    {
+        return [
+            'username' => 'required',
+            'password' => 'required',
+        ];
+    }
+
+    /**
+     * Attempt to authenticate the user
+     * 
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function authenticate() : void
+    {
+        $this->checkRateLimit();
+
+        if(!Auth::attempt($this->validated())) {
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'username' => trans('auth.failed')
+            ]);
+        }
+
+        RateLimiter::clear($this->throttleKey());
+    }
+
+    /**
+     * Check if the request is rate limited.
+     * 
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function checkRateLimit() : void
+    {
+        if(RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+            event(new Lockout($this));
+
+            $seconds = RateLimiter::availableIn($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'username' => trans('auth.throttle', [
+                    'seconds' => $seconds,
+                ]),
+            ]);
+        }
+    }
+
+    /**
+     * Get the rate limiting throttle key.
+     */
+    private function throttleKey() : string
+    {
+        return Str::transliterate($this->ip().':'.Str::lower($this->input('username')));
+    }
+}
