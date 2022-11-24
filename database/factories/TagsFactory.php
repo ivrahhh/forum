@@ -17,7 +17,7 @@ class TagsFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'tag' => fake()->unique()->word(),
         ];
     }
 }

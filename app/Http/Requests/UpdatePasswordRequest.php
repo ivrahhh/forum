@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Hash;
 
-class RegistrationRequest extends FormRequest
+class UpdatePasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,15 +24,9 @@ class RegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|unique:users',
+            'token' => 'required',
+            'email' => 'required|email|exists:users',
             'password' => 'required|min:8|confirmed',
         ];
-    }
-
-    public function getValidatedWithHashedPassword()
-    {
-        return array_merge(parent::validated(), [
-            'password' => Hash::make($this->validated('password')),
-        ]);
     }
 }
