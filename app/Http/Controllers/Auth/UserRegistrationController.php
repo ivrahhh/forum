@@ -23,7 +23,7 @@ class UserRegistrationController extends Controller
 
     public function store(RegistrationRequest $request) : RedirectResponse
     {
-       $user = $this->repository->create($request->validated());
+       $user = $this->repository->create($request->getValidatedWithHashedPassword());
 
        Auth::login($user);
 

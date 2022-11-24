@@ -29,7 +29,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required',
+            'email' => 'required|email',
             'password' => 'required',
         ];
     }
@@ -47,7 +47,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'username' => trans('auth.failed')
+                'email' => trans('auth.failed')
             ]);
         }
 
@@ -67,7 +67,7 @@ class LoginRequest extends FormRequest
             $seconds = RateLimiter::availableIn($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'username' => trans('auth.throttle', [
+                'email' => trans('auth.throttle', [
                     'seconds' => $seconds,
                 ]),
             ]);
@@ -79,6 +79,6 @@ class LoginRequest extends FormRequest
      */
     private function throttleKey() : string
     {
-        return Str::transliterate($this->ip().':'.Str::lower($this->input('username')));
+        return Str::transliterate($this->ip().':'.Str::lower($this->input('email')));
     }
 }
