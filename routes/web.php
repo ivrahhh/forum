@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ResendEmailVerificationLinkController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\UserAuthenticationController;
 use App\Http\Controllers\Auth\UserRegistrationController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,10 +19,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-})->middleware('verified');
+Route::middleware(['auth','verified'])->group(function() {
+    Route::get('/', [HomeController::class,'index'])->name('home');
+});
 
 
 /*
