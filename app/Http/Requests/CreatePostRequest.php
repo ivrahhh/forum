@@ -13,6 +13,7 @@ class CreatePostRequest extends FormRequest
      */
     public function authorize()
     {
+        dd($this->input());
         return true;
     }
 

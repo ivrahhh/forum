@@ -9,6 +9,7 @@
         'resources/css/app.css',
         'resources/js/app.js',
     ])
+    @livewireStyles
     <title>{{ config('app.name') }}</title>
 </head>
 <body>
@@ -35,7 +36,7 @@
         </nav>
     </header>
     <div class="flex relative">
-        <aside class="w-64 py-4 flex flex-col text-sm text-gray-700">
+        <aside class="sticky top-0 h-screen w-64 py-4 flex flex-col text-sm text-gray-700">
             <x-nav-link href="" class="block w-full px-4 py-3" :active="request()->routeIs('home')">
                 <i class="fa-solid fa-house mr-2"></i>Home
             </x-nav-link>
@@ -63,5 +64,6 @@
             @yield('content')
         </main>
     </div>
+    @livewireScripts
 </body>
 </html>

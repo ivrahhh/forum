@@ -16,7 +16,7 @@
             <div>
                 <div class="flex justify-between items-center">
                     <x-label for="password" :value="__('Password')" />
-                    <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:underline">Forgot Password ?</a>
+                    <a href="{{ route('password.request') }}" class="text-sm text-blue-600 hover:underline" tabindex="-1">Forgot Password ?</a>
                 </div>
                 <x-input type="password" id="password" name="password" />
                 @error('password')
