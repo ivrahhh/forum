@@ -12,6 +12,7 @@
         x-show="active"
         @click="active = false"
         @click.outside="active = false"
+        style="display: none;"
         class="absolute mt-2 right-0 origin-top-right w-48 rounded-lg shadow z-50">
         <div class="bg-slate-900 py-1 rounded-lg text-sm text-white border-t border-gray-500 divide-y divide-gray-500">
             {{ $menu }}

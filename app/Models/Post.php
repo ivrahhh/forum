@@ -32,4 +32,9 @@ class Post extends Model
     {
         return $this->belongsToMany(Tags::class,'post_tags', 'post_id','tag_id');
     }
+
+    public function likes() : BelongsToMany
+    {
+        return $this->belongsToMany(User::class,'user_likes','post_id','user_id')->withTimestamps();
+    }
 }

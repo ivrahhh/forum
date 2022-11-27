@@ -14,8 +14,6 @@
         </p>
     </div>
     <div class="grid grid-cols-3 divide-x border-t">
-        <x-button.like />
-        <x-button.comment />
-        <x-button.share />
+        {{ $actions }}
     </div>
 </section>

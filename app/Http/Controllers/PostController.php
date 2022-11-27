@@ -40,6 +40,12 @@ class PostController extends Controller
      */
     public function show(Post $post) : View
     {
+        $post->load(['comments' => [
+            'replies' => [
+                'user'
+            ],
+            'user',
+        ]]);
         return view('pages.show-post', compact('post'));
     }
 

@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\UserAuthenticationController;
 use App\Http\Controllers\Auth\UserRegistrationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+use App\Http\Livewire\Home;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +22,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::middleware(['auth','verified'])->group(function() {
-    Route::get('/', [HomeController::class,'index'])->name('home');
+    Route::get('/', Home::class)->name('home');
+
+    Route::resource('posts',PostController::class)->except('index');
 });
 
 

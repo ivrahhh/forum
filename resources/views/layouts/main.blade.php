@@ -9,6 +9,7 @@
         'resources/css/app.css',
         'resources/js/app.js',
     ])
+    @livewireStyles
     <title>{{ config('app.name') }}</title>
 </head>
 <body>
@@ -63,5 +64,6 @@
             @yield('content')
         </main>
     </div>
+    @livewireScripts
 </body>
 </html>
