@@ -7,8 +7,10 @@
                 <x-slot name="info">{{ $post->user->username ?: $post->user->email }}</x-slot>
                 <x-slot name="title">{{ $post->title }}</x-slot>
                 <x-slot name="content">{{ $post->content }}</x-slot>
-            </x-post-wrapper>
+            </x-post-wrapper>   
         @endforeach
     </div>
-    {{ $posts->links('components.pagination') }}
+    <div class="p-4">
+        {{ $posts->links('components.pagination') }}
+    </div>
 @endsection

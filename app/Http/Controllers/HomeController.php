@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-
     public function index()
     {
         $posts =  Post::with(['user:id,username'])->paginate(10);
